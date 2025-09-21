@@ -44,7 +44,7 @@ To start using DiscordJS-Bot-Template-V14, run the following command:
 
 ```sh
 cd src
-nodemon src
+node .
 ```
 
 ## Contributing
