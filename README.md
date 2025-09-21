@@ -21,7 +21,7 @@ git clone https://github.com/NassCT/DiscordJS-Bot-Template-V14.git
 2. Navigate to the project directory:
 
 ```sh
-cd Screamer
+cd DiscordJS-Bot-Template-V14
 ```
 
 3. Install the dependencies:
