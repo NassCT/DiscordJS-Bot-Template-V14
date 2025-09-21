@@ -40,7 +40,7 @@ npm install
 
 ## Usage
 
-To start using Screamer, run the following command:
+To start using DiscordJS-Bot-Template-V14, run the following command:
 
 ```sh
 cd src
