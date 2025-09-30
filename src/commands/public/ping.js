@@ -6,8 +6,15 @@ module.exports = {
     .setDescription("Renvoie la latence du bot."),
 
   async execute(interaction) {
-    const sent = await interaction.reply({ content: "Pong!", fetchReply: true });
-    const latency = sent.createdTimestamp - interaction.createdTimestamp;
-    await interaction.editReply(`Pong! Latence : ${latency}ms`);
+    // Méthode plus robuste pour calculer la latence
+    const start = Date.now();
+    
+    await interaction.reply({ content: "Pong! Calcul de la latence...", flags: 64 });
+    
+    const end = Date.now();
+    const latency = end - start;
+    const apiLatency = Math.round(interaction.client.ws.ping);
+
+    await interaction.editReply(`🏓 Pong!\n📡 Latence API: ${latency}ms\n 💓 Bot: ${apiLatency}ms`);
   },
 };

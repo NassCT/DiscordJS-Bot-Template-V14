@@ -1,12 +1,25 @@
 {
+  "name": "discordbotv14",
+  "version": "1.0.0",
+  "description": "Bot Discord avec Discord.js 14.22.1",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node -e \"console.log('Discord.js version:', require('discord.js').version)\"",
+    "test-deprecations": "node src/test-deprecations.js"
+  },
   "dependencies": {
     "@discordjs/builders": "^1.10.0",
     "@discordjs/rest": "^2.4.2",
     "axios": "^1.7.9",
     "cheerio": "^1.0.0",
-    "discord-api-types": "^0.37.115",
-    "discord.js": "^14.17.3",
-    "dotenv": "^16.4.7",
-    "puppeteer": "^23.11.1"
+    "discord-api-types": "^0.37.120",
+    "discord.js": "^14.22.1",
+    "dotenv": "^16.6.1",
+    "puppeteer": "^24.22.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

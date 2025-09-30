@@ -1,8 +1,8 @@
 const { REST } = require("@discordjs/rest");
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { Routes } = require('discord-api-types/v9');
+const { Routes } = require('discord-api-types/v10');
 const fs = require('fs');
-require('dotenv').config({ path: 'src/.env' });
+require('dotenv').config();
 
 module.exports = (client) => {
     client.handleCommands = async (commandFolders, path) => {
@@ -20,8 +20,14 @@ module.exports = (client) => {
             }
         }
 
+        // Vérifier si le token et client_id sont disponibles avant d'enregistrer les commandes
+        if (!process.env.TOKEN || !process.env.CLIENT_ID) {
+            console.log('⚠️ TOKEN ou CLIENT_ID manquant - enregistrement des commandes ignoré');
+            return;
+        }
+
         const rest = new REST({
-            version: '9'
+            version: '10'
         }).setToken(process.env.TOKEN);
 
         (async () => {
