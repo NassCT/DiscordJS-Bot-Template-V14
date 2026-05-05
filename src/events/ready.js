@@ -4,12 +4,12 @@ module.exports = {
     name: 'clientReady',
     once: true,
     async execute(client) {
-        console.log(`Ready! Logged in as ${client.user.tag}`);
+        console.log(`Ready! Logged in as ${client.user.tag}(${client.user.id})`);
 
         // Exemple de statuts (vous pouvez personnaliser cette liste)
         const statusArray = [
             {
-                content: "avec Discord.js 14.22.1",
+                content: "avec Discord.js 14.24.6",
                 type: ActivityType.Playing,
                 status: "online"
             },
