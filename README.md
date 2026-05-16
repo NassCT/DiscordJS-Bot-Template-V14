@@ -1,65 +1,136 @@
 # DiscordJS-Bot-Template-V14
 
-DiscordJS-Bot-Template-V14 is a template for creating Discord bot handlers using Discord.js v14.
+Template de bot Discord utilisant Discord.js v14, avec support Docker et Puppeteer.
 
-## Features
+## Fonctionnalités
 
-- Modular command and event handling.
-- Easy-to-configure environment variables.
-- Scalable and customizable structure.
+- Gestion modulaire des commandes slash et événements
+- Chargement dynamique des commandes par dossier
+- Support Puppeteer (scraping web avec Chromium headless)
+- Dockerisé avec Docker Compose
+- Gestion propre des erreurs et arrêt gracieux (SIGTERM/SIGINT)
+- Rotation automatique des statuts du bot
+
+## Prérequis
+
+- [Node.js](https://nodejs.org/) >= 18.0.0 (recommandé : 22 LTS)
+- [Docker](https://www.docker.com/) et Docker Compose (optionnel, pour le déploiement conteneurisé)
 
 ## Installation
 
-To
-
-1. Clone the repository:
+1. Cloner le dépôt :
 
 ```sh
 git clone https://github.com/NassCT/DiscordJS-Bot-Template-V14.git
-```
-
-2. Navigate to the project directory:
-
-```sh
 cd DiscordJS-Bot-Template-V14
 ```
 
-3. Install the dependencies:
+2. Installer les dépendances :
 
 ```sh
 npm install
 ```
 
-4. Rename the `.env.example` file to `.env`:
+3. Configurer les variables d'environnement :
 
 ```sh
-.env.example .env
+cp src/.env.example .env
 ```
 
-5. Fill in the `TOKEN`, `GUILD_ID`, and `CLIENT_ID` in the `.env` file.
+4. Remplir le fichier `.env` :
 
-## Usage
+```env
+TOKEN="votre-token-discord"
+CLIENT_ID="id-de-votre-application"
+GUILD_ID="id-de-votre-serveur"
+```
 
-To start using DiscordJS-Bot-Template-V14, run the following command:
+## Utilisation
+
+### Développement local
 
 ```sh
-cd src
-node .
+# Démarrer le bot
+npm start
+
+# Démarrer en mode watch (redémarrage auto sur modification)
+npm run dev
 ```
 
-## Contributing
+### Docker
 
-We welcome contributions! Please read our [contributing guidelines](CONTRIBUTING.md) before getting started.
+```sh
+# Construire et lancer
+docker compose up -d
 
-## License
+# Voir les logs
+docker compose logs -f
 
-This project does not currently have a license. It is developed and maintained by the author. 
-Please contact the author for any usage inquiries.
+# Arrêter
+docker compose stop
 
-## Author
+# Reconstruire après modification
+docker compose up -d --build
+```
 
-This project is developed and maintained by [NassCT](https://github.com/NassCT).
+## Structure du projet
+
+```
+├── .dockerignore
+├── .env                    # Variables d'environnement (non versionné)
+├── .gitignore
+├── docker-compose.yml
+├── Dockerfile
+├── package.json
+└── src/
+    ├── .env.example        # Template des variables d'environnement
+    ├── index.js            # Point d'entrée principal
+    ├── commands/
+    │   └── public/
+    │       └── ping.js     # Commande /ping (exemple)
+    ├── events/
+    │   ├── interactionCreate.js
+    │   └── ready.js
+    └── functions/
+        ├── handelCommands.js
+        └── handelEvents.js
+```
+
+## Ajouter une commande
+
+Créer un fichier dans `src/commands/<catégorie>/` :
+
+```javascript
+const { SlashCommandBuilder } = require("discord.js");
+
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName("ma-commande")
+    .setDescription("Description de la commande"),
+
+  async execute(interaction) {
+    await interaction.reply("Réponse !");
+  },
+};
+```
+
+Les commandes sont automatiquement chargées et enregistrées auprès de l'API Discord au démarrage.
+
+## Docker
+
+L'image utilise Node.js 22 Alpine avec Chromium pré-installé pour Puppeteer. Le bot tourne en tant qu'utilisateur non-root pour la sécurité.
+
+| Variable d'environnement | Description |
+|--------------------------|-------------|
+| `TOKEN` | Token du bot Discord |
+| `CLIENT_ID` | ID de l'application Discord |
+| `GUILD_ID` | ID du serveur (optionnel) |
+| `NODE_ENV` | Défini à `production` dans Docker |
+
+## Auteur
+
+Développé par [NassCT](https://github.com/NassCT)
 
 ## Contact
 
-For any questions or feedback, please reach out to us at discord: @nassct
+Discord : @nassct

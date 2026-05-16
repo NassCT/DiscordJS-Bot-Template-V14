@@ -10,8 +10,28 @@ const functions = fs.readdirSync(path.join(__dirname, "functions")).filter(file 
 const eventFiles = fs.readdirSync(path.join(__dirname, "events")).filter(file => file.endsWith(".js"));
 const commandFolders = fs.readdirSync(path.join(__dirname, "commands"));
 
+// Gestion des erreurs non gérées
+process.on('unhandledRejection', (error) => {
+    console.error('❌ Unhandled promise rejection:', error);
+});
+
+process.on('uncaughtException', (error) => {
+    console.error('❌ Uncaught exception:', error);
+    process.exit(1);
+});
+
+// Arrêt propre
+function gracefulShutdown(signal) {
+    console.log(`Signal ${signal} reçu. Arrêt...`);
+    client.destroy();
+    process.exit(0);
+}
+
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+
 (async () => {
-    for (file of functions) {
+    for (const file of functions) {
         require(`./functions/${file}`)(client);
     }
     client.handleEvents(eventFiles, path.join(__dirname, "events"));
@@ -26,4 +46,3 @@ const commandFolders = fs.readdirSync(path.join(__dirname, "commands"));
     
     client.login(process.env.TOKEN);
 })();
-

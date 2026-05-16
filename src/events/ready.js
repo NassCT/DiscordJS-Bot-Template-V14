@@ -1,4 +1,4 @@
-const { ActivityType } = require('discord.js');
+const { ActivityType, version: discordJsVersion } = require('discord.js');
 
 module.exports = {
     name: 'clientReady',
@@ -9,7 +9,7 @@ module.exports = {
         // Exemple de statuts (vous pouvez personnaliser cette liste)
         const statusArray = [
             {
-                content: "avec Discord.js 14.24.6",
+                content: `avec Discord.js ${discordJsVersion}`,
                 type: ActivityType.Playing,
                 status: "online"
             },
